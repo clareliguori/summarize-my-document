@@ -44,12 +44,21 @@ public class WordCloudGenerator implements RequestHandler<APIGatewayProxyRequest
 
             final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
             final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(Arrays.asList(request.getDocContent().split(System.lineSeparator())));
-            final Dimension dimension = new Dimension(600, 600);
+            final Dimension dimension = new Dimension(400, 400);
             final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.RECTANGLE);
             wordCloud.setPadding(0);
             wordCloud.setBackground(new RectangleBackground(dimension));
-            wordCloud.setColorPalette(new ColorPalette(Color.RED, Color.GREEN, Color.YELLOW, Color.BLUE));
-            wordCloud.setFontScalar(new LinearFontScalar(10, 40));
+
+            wordCloud.setBackgroundColor(Color.WHITE);
+            wordCloud.setColorPalette(new ColorPalette(
+                new Color(0x7ce8f4), // Cyan
+                new Color(0x7c5aed), // Violet
+                new Color(0xdf2a5d), // Cosmos
+                new Color(0x330066), // Galaxy
+                new Color(0x232f3e)  // Squid Ink
+            ));
+
+            wordCloud.setFontScalar(new LinearFontScalar(10, 80));
             wordCloud.build(wordFrequencies);
 
             ByteArrayOutputStream imgOutput = new ByteArrayOutputStream();
