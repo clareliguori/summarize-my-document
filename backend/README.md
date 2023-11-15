@@ -28,7 +28,8 @@ mvn compile
 mvn exec:java -Dexec.mainClass="wordcloud.WordCloudGenerator"
 ```
 
-## Test word-cloud--generator
+## Test word-cloud-generator
 
-TODO
-
+```sh
+mvn clean compile test
+```
