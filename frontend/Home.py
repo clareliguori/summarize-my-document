@@ -13,8 +13,11 @@ uploaded_file = st.file_uploader(
 if uploaded_file:
     document = uploaded_file.read().decode()
 
-    # Call the content summary generator API with file contents, then display the returned summarization
-    api = summary_client.ContentSummaryGeneratorAPI()
-    summary = api.get_content_summary(document)
+    # Call the content summary generator API with file contents
+    with st.spinner("Generating..."):
+        api = summary_client.ContentSummaryGeneratorAPI()
+        st.session_state.content_summary = api.get_content_summary(document)
+
+    # Display the summarization
     st.subheader("Summary")
-    st.write(summary)
+    st.write(st.session_state.content_summary)
