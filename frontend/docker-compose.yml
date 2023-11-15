@@ -11,6 +11,7 @@ services:
     environment:
       - AWS_REGION=us-west-2
       - BACKEND_URL=https://summarize-my-document-backend.liguori.people.aws.dev
+      - STREAMLIT_SERVER_MAX_UPLOAD_SIZE=1
     volumes:
       - type: bind
         source: ~/.aws

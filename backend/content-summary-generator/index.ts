@@ -9,7 +9,6 @@ const bedrockClient = new BedrockRuntimeClient({maxAttempts: 6});
 
 
 export const handler = async (event: any = {}): Promise<any> => {
-  console.log(event);
   const docContent = JSON.parse(event.body)['doc_content'];
 
   const prompt = `${HUMAN_PROMPT}
@@ -21,7 +20,6 @@ ${docContent}
 
 Please give me a short summary of the document.
 ${AI_PROMPT}`;
-  console.log(prompt);
 
   const modelRequest = {
     prompt,

@@ -53,6 +53,7 @@ class FrontendStack(Stack):
                 container_port=8501,  # 8501 is the default Streamlit port
                 environment={
                     "BACKEND_URL": f"https://summarize-my-document-backend.{parent_domain}",
+                    "STREAMLIT_SERVER_MAX_UPLOAD_SIZE": "1",
                 },
             ),
             public_load_balancer=True,
