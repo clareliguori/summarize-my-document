@@ -32,4 +32,14 @@ public class WordCloudGenerator implements RequestHandler<APIGatewayProxyRequest
                     .withStatusCode(500);
         }
     }
+
+    // For testing locally
+    public static void main(String[] args) {
+        WordCloudGenerator generator = new WordCloudGenerator();
+        APIGatewayProxyRequestEvent request = new APIGatewayProxyRequestEvent().withBody("{\"doc-content\": \"Hello world\"}");
+        Context context = new ContextStub();
+        APIGatewayProxyResponseEvent response = generator.handleRequest(request, context);
+        System.out.println("Status code: " + response.getStatusCode());
+        System.out.println("Body:" + response.getBody());
+    }
 }

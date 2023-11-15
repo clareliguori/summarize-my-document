@@ -48,13 +48,6 @@ class BackendStack(Stack):
         java_bundling_options = BundlingOptions(
             command=java_packaging_instructions,
             image=_lambda.Runtime.JAVA_17.bundling_image,
-            volumes=[
-                # Mount local .m2 repo to avoid downloading all the dependencies again inside the container
-                DockerVolume(
-                    host_path=path.join(Path.home(), "/.m2/"),
-                    container_path="/root/.m2/",
-                ),
-            ],
             user="root",
             output_type=BundlingOutput.ARCHIVED,
         )
