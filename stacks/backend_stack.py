@@ -2,6 +2,7 @@ from aws_cdk import (
     DockerVolume,
     BundlingOptions,
     BundlingOutput,
+    CfnOutput,
     Stack,
     aws_apigateway as apigw,
     aws_certificatemanager as acm,
@@ -92,17 +93,29 @@ class BackendStack(Stack):
         )
 
         summary_api = backend_apis.root.add_resource("content-summary-generator")
-        summary_api.add_method(
+        post_to_summary_api = summary_api.add_method(
             "POST",
             apigw.LambdaIntegration(summary_lambda_function),
             authorization_type=apigw.AuthorizationType.IAM,
         )
+        CfnOutput(
+            self,
+            "SummaryApiMethodArn",
+            value=post_to_summary_api.method_arn,
+            export_name="SummarizeMyDoc-ContentSummaryMethod",
+        )
 
         word_cloud_api = backend_apis.root.add_resource("word-cloud-generator")
-        word_cloud_api.add_method(
+        post_to_word_cloud_api = word_cloud_api.add_method(
             "POST",
             apigw.LambdaIntegration(word_cloud_lambda_function),
             authorization_type=apigw.AuthorizationType.IAM,
+        )
+        CfnOutput(
+            self,
+            "WordCloudApiMethodArn",
+            value=post_to_word_cloud_api.method_arn,
+            export_name="SummarizeMyDoc-WordCloudMethod",
         )
 
         route53.ARecord(

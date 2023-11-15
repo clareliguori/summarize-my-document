@@ -1,4 +1,5 @@
 from aws_cdk import (
+    Fn,
     Stack,
     RemovalPolicy,
     aws_certificatemanager as acm,
@@ -8,6 +9,7 @@ from aws_cdk import (
     aws_ecs_patterns as ecs_patterns,
     aws_elasticloadbalancingv2 as elb,
     aws_elasticloadbalancingv2_actions as elb_actions,
+    aws_iam as iam,
     aws_route53 as route53,
 )
 from constructs import Construct
@@ -50,13 +52,30 @@ class FrontendStack(Stack):
                 image=image,
                 container_port=8501,  # 8501 is the default Streamlit port
                 environment={
-                    "BACKEND_URL": f"https://summarize-my-document-backend.{parent_domain}/prod",
+                    "BACKEND_URL": f"https://summarize-my-document-backend.{parent_domain}",
                 },
             ),
             public_load_balancer=True,
             domain_name=domain_name,
             domain_zone=hosted_zone,
             certificate=certificate,
+        )
+
+        fargate_service.task_definition.task_role.attach_inline_policy(
+            iam.Policy(
+                self,
+                "AllowBackendApis",
+                statements=[
+                    iam.PolicyStatement(
+                        actions=["execute-api:Invoke"],
+                        effect=iam.Effect.ALLOW,
+                        resources=[
+                            Fn.import_value("SummarizeMyDoc-ContentSummaryMethod"),
+                            Fn.import_value("SummarizeMyDoc-WordCloudMethod"),
+                        ],
+                    )
+                ],
+            )
         )
 
         # Configure Streamlit's health check
