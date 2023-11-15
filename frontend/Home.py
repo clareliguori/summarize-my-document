@@ -15,8 +15,8 @@ if uploaded_file:
 
     # Call the content summary generator API with file contents
     with st.spinner("Generating..."):
-        api = summary_client.ContentSummaryGeneratorAPI()
-        st.session_state.content_summary = api.get_content_summary(document)
+        summary_api = summary_client.ContentSummaryGeneratorAPI()
+        st.session_state.content_summary = summary_api.get_content_summary(document)
 
     # Display the summarization
     st.subheader("Summary")
