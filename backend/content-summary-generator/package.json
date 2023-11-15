@@ -1,0 +1,17 @@
+{
+    "name": "content-summary-generator",
+    "version": "1.0.0",
+    "description": "Summarizes a given document",
+    "private": true,
+    "license": "Apache-2.0",
+    "scripts": {
+        "build": "tsc"
+    },
+    "devDependencies": {
+        "@types/node": "^20.8.10",
+        "typescript": "^5.2.2"
+    },
+    "dependencies": {
+        "@aws-sdk/client-bedrock-runtime": "^3.451.0"
+    }
+}

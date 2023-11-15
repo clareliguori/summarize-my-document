@@ -3,7 +3,6 @@
 cdk.out
 cdk.context.json
 *.swp
-package-lock.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
