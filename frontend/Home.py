@@ -1,5 +1,7 @@
 import streamlit as st
 
+st.set_page_config(initial_sidebar_state="collapsed")
+
 st.title("📝 Summarize my document")
 uploaded_file = st.file_uploader("Upload a document", type=("txt", "md"))
 

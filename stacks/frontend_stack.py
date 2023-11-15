@@ -47,7 +47,11 @@ class FrontendStack(Stack):
             "StreamlitService",
             cluster=cluster,
             task_image_options=ecs_patterns.ApplicationLoadBalancedTaskImageOptions(
-                image=image, container_port=8501  # 8501 is the default Streamlit port
+                image=image,
+                container_port=8501,  # 8501 is the default Streamlit port
+                environment={
+                    "BACKEND_URL": f"https://summarize-my-document-backend.{parent_domain}/prod",
+                },
             ),
             public_load_balancer=True,
             domain_name=domain_name,

@@ -10,6 +10,7 @@ services:
       - "8501:8501"
     environment:
       - AWS_REGION=us-west-2
+      - BACKEND_URL=https://summarize-my-document-backend.liguori.people.aws.dev
     volumes:
       - type: bind
         source: ~/.aws

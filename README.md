@@ -5,17 +5,18 @@
 Fork this repo to your own GitHub account.
 Edit the file `cdk_stacks.py`. Search for `parent_domain` and fill in your own DNS domain, such as `my-domain.com`.
 The demo application will be hosted at `https://summarize-my-document-demo.my-domain.com`.
-Push this change to your fork repository.
+Also edit the file `frontend/docker-compose.yml` and fill in your own DNS domain for the `BACKEND_URL` value.
+Push these changes to your fork repository.
 
 Install both nodejs and python on your computer.
 
 Install CDK:
-```
+```sh
 npm install -g aws-cdk
 ```
 
 Set up a virtual env:
-```
+```sh
 python3 -m venv .venv
 
 source .venv/bin/activate
@@ -24,8 +25,13 @@ pip install -r requirements.txt
 ```
 After this initial setup, you only need to run `source .venv/bin/activate` to use the virtual env for further development.
 
-Deploy all the demo stacks:
+Synthesize the demo stacks:
+```sh
+cdk synth --app 'python3 cdk_stacks.py'
 ```
+
+Deploy all the demo stacks:
+```sh
 cdk deploy --app 'python3 cdk_stacks.py' --all
 ```
 
