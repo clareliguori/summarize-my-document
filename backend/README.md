@@ -16,7 +16,9 @@ node-lambda run --apiGateway
 
 ## Test content-summary-generator
 
-TODO
+```sh
+npm test
+```
 
 ## Word cloud generator
 
