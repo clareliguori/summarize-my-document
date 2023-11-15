@@ -1,14 +1,15 @@
 from aws_cdk import (
-    DockerVolume,
     BundlingOptions,
     BundlingOutput,
     CfnOutput,
+    Duration,
     Stack,
     aws_apigateway as apigw,
     aws_certificatemanager as acm,
     aws_iam as iam,
     aws_lambda as _lambda,
     aws_lambda_nodejs as nodejs,
+    aws_logs as logs,
     aws_route53 as route53,
     aws_route53_targets as route53_targets,
 )
@@ -36,6 +37,8 @@ class BackendStack(Stack):
                 function_code_dir, "content-summary-generator/package-lock.json"
             ),
             handler="handler",
+            timeout=Duration.seconds(30),
+            log_retention=logs.RetentionDays.ONE_WEEK,
         )
         summary_lambda_function.add_to_role_policy(
             iam.PolicyStatement(
@@ -59,7 +62,7 @@ class BackendStack(Stack):
 
         java_bundling_options = BundlingOptions(
             command=java_packaging_instructions,
-            image=_lambda.Runtime.JAVA_17.bundling_image,
+            image=_lambda.Runtime.JAVA_8_CORRETTO.bundling_image,
             user="root",
             output_type=BundlingOutput.ARCHIVED,
         )
@@ -67,12 +70,15 @@ class BackendStack(Stack):
         word_cloud_lambda_function = _lambda.Function(
             self,
             "WordCloudGenerator",
-            runtime=_lambda.Runtime.JAVA_17,
+            runtime=_lambda.Runtime.JAVA_8_CORRETTO,
             code=_lambda.Code.from_asset(
                 path.join(function_code_dir, "word-cloud-generator"),
                 bundling=java_bundling_options,
             ),
             handler="wordcloud.WordCloudGenerator",
+            memory_size=1024,
+            timeout=Duration.seconds(30),
+            log_retention=logs.RetentionDays.ONE_WEEK,
         )
 
         # API Gateway serving the two Lambda functions as APIs

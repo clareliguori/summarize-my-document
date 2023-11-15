@@ -5,7 +5,7 @@ import {
 
 const HUMAN_PROMPT = "\n\nHuman:";
 const AI_PROMPT = "\n\nAssistant:";
-const bedrockClient = new BedrockRuntimeClient();
+const bedrockClient = new BedrockRuntimeClient({maxAttempts: 6});
 
 
 export const handler = async (event: any = {}): Promise<any> => {
@@ -39,7 +39,7 @@ ${AI_PROMPT}`;
   );
 
   const modelResponseBody = JSON.parse(modelResponse.body.transformToString()).completion;
-  const response = { content_summary: modelResponseBody };
+  const response = { content_summary: modelResponseBody.trim() };
 
   return {
     statusCode: 200,

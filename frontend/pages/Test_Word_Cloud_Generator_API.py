@@ -43,5 +43,8 @@ with st.form("test_word_cloud_generator_api"):
         )
         api_response_json = r.json()
 
+        # Example response:
+        # { "word_cloud_image": "<image content>" }
         st.subheader("API Response")
+        st.write(f"Status Code: {r.status_code}")
         st.code(json.dumps(api_response_json, indent=2), language="json")

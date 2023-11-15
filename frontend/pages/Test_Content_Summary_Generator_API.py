@@ -45,5 +45,8 @@ with st.form("test_content_summary_generator_api"):
         )
         api_response_json = r.json()
 
+        # Example response:
+        # { "content_summary": "Here is a short summary of the document..." }
         st.subheader("API Response")
+        st.write(f"Status Code: {r.status_code}")
         st.code(json.dumps(api_response_json, indent=2), language="json")
