@@ -11,18 +11,16 @@ st.set_page_config(initial_sidebar_state="collapsed")
 
 st.title("Test the Content Summary Generator API")
 
-content_summary_generator_api_endpoint = (
-    f"{os.getenv('BACKEND_URL')}/content-summary-generator"
-)
-
 aws_credentials = boto3.Session().get_credentials()
 aws_region = os.getenv("AWS_REGION")
 
-auth = AWSRequestsAuth(
+api_endpoint = f"{os.getenv('BACKEND_URL')}/content-summary-generator"
+
+api_auth = AWSRequestsAuth(
     aws_access_key=aws_credentials.access_key,
     aws_secret_access_key=aws_credentials.secret_key,
     aws_token=aws_credentials.token,
-    aws_host=urllib.parse.urlparse(content_summary_generator_api_endpoint).netloc,
+    aws_host=urllib.parse.urlparse(api_endpoint).netloc,
     aws_region=aws_region,
     aws_service="execute-api",
 )
@@ -39,8 +37,8 @@ with st.form("test_content_summary_generator_api"):
     submitted = st.form_submit_button("Test")
     if submitted:
         r = requests.post(
-            url=content_summary_generator_api_endpoint,
-            auth=auth,
+            url=api_endpoint,
+            auth=api_auth,
             json={"doc_content": content_input},
         )
         api_response_json = r.json()

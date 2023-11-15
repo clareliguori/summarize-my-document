@@ -18,7 +18,7 @@ I'm going to give you the contents of a document and then I'm going to ask you t
 ${docContent}
 </document>
 
-Please give me a short summary of the document.
+Please give me a short summary of the key points in the document.
 ${AI_PROMPT}`;
 
   const modelRequest = {

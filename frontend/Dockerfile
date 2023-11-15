@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY requirements.txt ./requirements.txt
 RUN pip3 install -r requirements.txt
-COPY Home.py .
+COPY *.py .
 COPY pages/ ./pages/
 
 EXPOSE 8501

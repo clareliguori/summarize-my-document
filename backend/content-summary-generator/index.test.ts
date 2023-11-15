@@ -35,7 +35,7 @@ Hello
 world
 </document>
 
-Please give me a short summary of the document.
+Please give me a short summary of the key points in the document.
 
 
 Assistant:`;
