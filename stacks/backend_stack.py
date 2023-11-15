@@ -6,6 +6,7 @@ from aws_cdk import (
     Stack,
     aws_apigateway as apigw,
     aws_certificatemanager as acm,
+    aws_iam as iam,
     aws_lambda as _lambda,
     aws_lambda_nodejs as nodejs,
     aws_route53 as route53,
@@ -35,6 +36,17 @@ class BackendStack(Stack):
                 function_code_dir, "content-summary-generator/package-lock.json"
             ),
             handler="handler",
+        )
+        summary_lambda_function.add_to_role_policy(
+            iam.PolicyStatement(
+                effect=iam.Effect.ALLOW,
+                actions=[
+                    "bedrock:InvokeModel",
+                ],
+                resources=[
+                    "arn:aws:bedrock:*::foundation-model/anthropic.claude-instant-v1",
+                ],
+            )
         )
 
         # Word cloud generator Lambda function, written in Java
