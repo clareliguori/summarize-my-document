@@ -1,5 +1,6 @@
 # Compiled Typescript
 *.js
+!jest.config.js
 
 # Logs
 logs

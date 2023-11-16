@@ -1,0 +1,45 @@
+Name: Test
+SchemaVersion: "1.0"
+Triggers:
+  - Type: PULLREQUEST
+    Branches:
+      - main
+    Events:
+      - OPEN
+      - REVISION
+  - Type: PUSH
+    Branches:
+      - main
+
+Actions:
+  test_frontend:
+    Identifier: aws/managed-test@v1
+    Inputs:
+      Sources:
+        - WorkflowSource
+    Configuration:
+      Steps:
+        - Run: cd frontend/
+        - Run: pip install -r requirements.txt
+        - Run: pip install -r requirements-dev.txt
+        - Run: pytest
+  test_backend_content_summarizer:
+    Identifier: aws/managed-test@v1
+    Inputs:
+      Sources:
+        - WorkflowSource
+    Configuration:
+      Steps:
+        - Run: cd backend/content-summary-generator
+        - Run: npm install
+        - Run: npm run build
+        - Run: npm test
+  test_backend_word_cloud:
+    Identifier: aws/managed-test@v1
+    Inputs:
+      Sources:
+        - WorkflowSource
+    Configuration:
+      Steps:
+        - Run: cd backend/word-cloud-generator
+        - Run: mvn compile test
