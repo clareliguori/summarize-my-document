@@ -1,5 +1,6 @@
 import streamlit as st
 import content_summary_generator_client as summary_client
+import word_cloud_generator_client as word_cloud_client
 
 st.set_page_config(initial_sidebar_state="collapsed")
 
@@ -18,10 +19,12 @@ if uploaded_file:
         summary_api = summary_client.ContentSummaryGeneratorAPI()
         st.session_state.content_summary = summary_api.get_content_summary(document)
 
-        # TODO call the word cloud generator API and save the image in session state
+        word_cloud_api = word_cloud_client.WordCloudGeneratorAPI()
+        st.session_state.word_cloud = word_cloud_api.get_word_cloud_image(document)
 
     # Display the summarization
     st.subheader("Summary")
     st.write(st.session_state.content_summary)
 
-    # TODO display the word cloud image
+    st.subheader("Word cloud")
+    st.image(st.session_state.word_cloud)
