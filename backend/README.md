@@ -25,9 +25,9 @@ npm test
 ## Run word-cloud-generator locally
 
 ```sh
-mvn compile
+mvn compile test-compile
 
-mvn exec:java -Dexec.mainClass="wordcloud.WordCloudGenerator"
+mvn exec:java -Dexec.mainClass="wordcloud.WordCloudGeneratorLocalInvoke" -Dexec.classpathScope=test
 ```
 
 ## Test word-cloud-generator
