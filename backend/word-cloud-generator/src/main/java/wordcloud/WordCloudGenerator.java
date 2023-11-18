@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Color;
 import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,8 +23,6 @@ import com.kennycason.kumo.nlp.FrequencyAnalyzer;
 import com.kennycason.kumo.palette.ColorPalette;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import sun.misc.BASE64Encoder;
 
 /**
  * Handler for requests to Lambda function.
@@ -46,7 +45,7 @@ public class WordCloudGenerator implements RequestHandler<APIGatewayProxyRequest
 
             final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
             final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(Arrays.asList(request.getDocContent().split(System.lineSeparator())));
-            Integer side = new Integer(400);
+            Integer side = Integer.valueOf(400);
             final Dimension dimension = new Dimension(side, side);
             final WordCloud wordCloud = new WordCloud(dimension, CollisionMode.RECTANGLE);
             wordCloud.setPadding(0);
@@ -69,7 +68,7 @@ public class WordCloudGenerator implements RequestHandler<APIGatewayProxyRequest
             byte[] imgData = imgOutput.toByteArray();
 
             logger.debug("Img data:");
-            logger.debug(new BASE64Encoder().encode(imgData));
+            logger.debug(Base64.getEncoder().encodeToString(imgData));
 
             WordCloudResponse imgResponse = WordCloudResponse.builder().wordCloudImage(imgData).build();
             String serializedImg = mapper.writeValueAsString(imgResponse);
