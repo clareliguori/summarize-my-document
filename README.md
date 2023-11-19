@@ -1,5 +1,7 @@
 # Summarize my document demo app
 
+https://github.com/clareliguori/summarize-my-document/assets/484245/03b8ef1a-4d03-4c21-b7ab-f307246a7a1b
+
 ## Deploy with AWS CDK
 
 Fork this repo to your own GitHub account.
