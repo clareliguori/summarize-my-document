@@ -21,8 +21,6 @@ elif [ -n "$is_yum_available" ]; then
 
     # Install fontconfig
     sudo yum -y install fontconfig
-
 else
-    echo "Err: no path to apt-get or yum" >&2
-    exit 1
+    echo "Warning: no path to apt-get or yum"
 fi
