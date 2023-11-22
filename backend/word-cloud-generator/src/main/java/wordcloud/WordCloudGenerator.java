@@ -48,7 +48,8 @@ public class WordCloudGenerator implements RequestHandler<APIGatewayProxyRequest
             logger.debug("Request: " + input.getBody());
             WordCloudRequest request = mapper.readValue(input.getBody(), WordCloudRequest.class);
 
-            // Analyze the content provided in the request, and generate the word cloud image
+            // Analyze the content provided in the request,
+            // and generate the word cloud image
             final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
             final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(Arrays.asList(request.getDocContent().split(System.lineSeparator())));
             Integer side = new Integer(400);

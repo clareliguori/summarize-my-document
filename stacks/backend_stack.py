@@ -3,6 +3,7 @@ from aws_cdk import (
     BundlingOutput,
     CfnOutput,
     Duration,
+    RemovalPolicy,
     Stack,
     aws_apigateway as apigw,
     aws_certificatemanager as acm,
@@ -12,6 +13,7 @@ from aws_cdk import (
     aws_logs as logs,
     aws_route53 as route53,
     aws_route53_targets as route53_targets,
+    aws_s3 as s3,
 )
 from constructs import Construct
 from pathlib import Path
