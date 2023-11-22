@@ -26,13 +26,16 @@ import org.apache.logging.log4j.Logger;
 import sun.misc.BASE64Encoder;
 
 /**
- * Handler for requests to Lambda function.
+ * Main logic for the word cloud API.
  */
 public class WordCloudGenerator implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
     public Logger logger = LogManager.getLogger();
     private final ObjectMapper mapper = new ObjectMapper();
 
+    /**
+     * Handler for API Gateway requests to the Lambda function that generates the word cloud image.
+     */
     public APIGatewayProxyResponseEvent handleRequest(final APIGatewayProxyRequestEvent input, final Context context) {
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
@@ -41,9 +44,11 @@ public class WordCloudGenerator implements RequestHandler<APIGatewayProxyRequest
         APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent()
                 .withHeaders(headers);
         try {
+            // Parse the request
             logger.debug("Request: " + input.getBody());
             WordCloudRequest request = mapper.readValue(input.getBody(), WordCloudRequest.class);
 
+            // Analyze the content provided in the request, and generate the word cloud image
             final FrequencyAnalyzer frequencyAnalyzer = new FrequencyAnalyzer();
             final List<WordFrequency> wordFrequencies = frequencyAnalyzer.load(Arrays.asList(request.getDocContent().split(System.lineSeparator())));
             Integer side = new Integer(400);
@@ -71,6 +76,7 @@ public class WordCloudGenerator implements RequestHandler<APIGatewayProxyRequest
             logger.debug("Img data:");
             logger.debug(new BASE64Encoder().encode(imgData));
 
+            // Add the word cloud image bytes to the response
             WordCloudResponse imgResponse = WordCloudResponse.builder().wordCloudImage(imgData).build();
             String serializedImg = mapper.writeValueAsString(imgResponse);
 

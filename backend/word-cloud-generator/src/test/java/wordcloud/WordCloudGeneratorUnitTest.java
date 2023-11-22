@@ -31,7 +31,7 @@ public class WordCloudGeneratorUnitTest {
             Context context = mock(Context.class);
             APIGatewayProxyResponseEvent response = generator.handleRequest(request, context);
 
-            // Validate that the headers and status code are ok
+            // Validate that the headers and status code are correct for a successful request
             assertEquals(2, response.getHeaders().size());
             assertEquals("application/json", response.getHeaders().get("Content-Type"));
             assertEquals("application/json", response.getHeaders().get("X-Custom-Header"));
@@ -57,7 +57,7 @@ public class WordCloudGeneratorUnitTest {
         Context context = mock(Context.class);
         APIGatewayProxyResponseEvent response = generator.handleRequest(request, context);
 
-        // Validate that the headers and status code are correct
+        // Validate that the headers and status code are correct for a failed request
         assertEquals(2, response.getHeaders().size());
         assertEquals("application/json", response.getHeaders().get("Content-Type"));
         assertEquals("application/json", response.getHeaders().get("X-Custom-Header"));
