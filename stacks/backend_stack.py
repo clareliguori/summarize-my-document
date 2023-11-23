@@ -69,6 +69,10 @@ class BackendStack(Stack):
             output_type=BundlingOutput.ARCHIVED,
         )
 
+        word_cloud_bucket = s3.Bucket(
+            self,
+            "WordCloudBucket",
+        )
         word_cloud_lambda_function = _lambda.Function(
             self,
             "WordCloudGenerator",
@@ -81,7 +85,9 @@ class BackendStack(Stack):
             memory_size=1024,
             timeout=Duration.seconds(30),
             log_retention=logs.RetentionDays.ONE_WEEK,
+            environment={"BUCKET_NAME": word_cloud_bucket.bucket_name},
         )
+        word_cloud_bucket.grant_read_write(word_cloud_lambda_function)
 
         # API Gateway serving the two Lambda functions as APIs
         domain_name = f"summarize-my-document-backend.{parent_domain}"
