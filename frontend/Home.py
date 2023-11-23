@@ -13,11 +13,15 @@ uploaded_file = st.file_uploader(
 if uploaded_file:
     document = uploaded_file.read().decode()
 
-    # Call the content summary generator API with file contents
+    # Call the content summary generator API and word cloud generator API with file contents
     with st.spinner("Generating..."):
         summary_api = summary_client.ContentSummaryGeneratorAPI()
         st.session_state.content_summary = summary_api.get_content_summary(document)
 
+        # TODO call the word cloud generator API and save the image in session state
+
     # Display the summarization
     st.subheader("Summary")
     st.write(st.session_state.content_summary)
+
+    # TODO display the word cloud image
