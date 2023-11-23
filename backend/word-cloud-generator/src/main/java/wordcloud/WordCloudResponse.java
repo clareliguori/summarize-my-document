@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @NoArgsConstructor
 @AllArgsConstructor
 public class WordCloudResponse {
-    /** The raw bytes of the generated word cloud image */
-    @JsonProperty("word_cloud_image")
-    private byte[] wordCloudImage;
+    /** The URL of the generated word cloud image */
+    @JsonProperty("word_cloud_url")
+    private String wordCloudUrl;
 }
