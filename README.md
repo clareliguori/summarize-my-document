@@ -1,6 +1,6 @@
 # Summarize my document demo app
 
-https://github.com/clareliguori/summarize-my-document/assets/484245/03b8ef1a-4d03-4c21-b7ab-f307246a7a1b
+https://github.com/clareliguori/summarize-my-document/assets/484245/cc118788-8529-4181-8cce-85d49166b6d1
 
 ## Deploy with AWS CDK
 
