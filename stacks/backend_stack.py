@@ -72,6 +72,7 @@ class BackendStack(Stack):
         word_cloud_bucket = s3.Bucket(
             self,
             "WordCloudBucket",
+            removal_policy=RemovalPolicy.DESTROY,
         )
         word_cloud_lambda_function = _lambda.Function(
             self,
