@@ -11,7 +11,9 @@ import { handler } from "./index";
 it('call Bedrock to summarize content', async () => {
   const bedrockMock = mockClient(BedrockRuntimeClient);
   const mockModelResponse = {
-    completion: "  This document is... ",
+    results: [{
+      outputText: "  This document is... ",
+    }],
   };
   bedrockMock.on(InvokeModelCommand).resolves({
       body: Uint8ArrayBlobAdapter.fromString(JSON.stringify(mockModelResponse)),
@@ -25,29 +27,23 @@ it('call Bedrock to summarize content', async () => {
 
   expect(bedrockMock).toHaveReceivedCommandTimes(InvokeModelCommand, 1);
 
-  const expectedPrompt = `
-
-Human:
-I'm going to give you the contents of a document and then I'm going to ask you to give me a summarization of the document.
-
-<document>
+  const expectedPrompt = `Document:
 Hello
 world
-</document>
-
-Please give me a short summary of the key points in the document.
-
-
-Assistant:`;
+--------------------------------
+From the document contents above, give me a short summary of the key points in the document.
+`;
 
   const expectedModelParams = {
-    prompt: expectedPrompt,
-    max_tokens_to_sample: 500,
-    temperature: 1,
+    inputText: expectedPrompt,
+    textGenerationConfig: {
+      maxTokenCount: 500,
+      temperature: 1,
+    },
   };
 
   expect(bedrockMock).toHaveReceivedCommandWith(InvokeModelCommand, {
-    modelId: "anthropic.claude-instant-v1",
+    modelId: "amazon.titan-text-express-v1",
     contentType: "application/json",
     accept: "*/*",
     body: JSON.stringify(expectedModelParams),

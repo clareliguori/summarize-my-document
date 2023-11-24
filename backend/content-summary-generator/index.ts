@@ -3,40 +3,35 @@ import {
   InvokeModelCommand,
 } from '@aws-sdk/client-bedrock-runtime';
 
-const HUMAN_PROMPT = "\n\nHuman:";
-const AI_PROMPT = "\n\nAssistant:";
 const bedrockClient = new BedrockRuntimeClient({maxAttempts: 6});
-
 
 export const handler = async (event: any = {}): Promise<any> => {
   const docContent = JSON.parse(event.body)['doc_content'];
 
-  const prompt = `${HUMAN_PROMPT}
-I'm going to give you the contents of a document and then I'm going to ask you to give me a summarization of the document.
-
-<document>
+  const prompt = `Document:
 ${docContent}
-</document>
-
-Please give me a short summary of the key points in the document.
-${AI_PROMPT}`;
+--------------------------------
+From the document contents above, give me a short summary of the key points in the document.
+`;
 
   const modelRequest = {
-    prompt,
-    max_tokens_to_sample: 500,
-    temperature: 1,
+    inputText: prompt,
+    textGenerationConfig: {
+      maxTokenCount: 500,
+      temperature: 1,
+    },
   };
 
   const modelResponse = await bedrockClient.send(
     new InvokeModelCommand({
-      modelId: "anthropic.claude-instant-v1",
+      modelId: "amazon.titan-text-express-v1",
       contentType: "application/json",
       accept: "*/*",
       body: JSON.stringify(modelRequest),
     }),
   );
 
-  const modelResponseBody = JSON.parse(modelResponse.body.transformToString()).completion;
+  const modelResponseBody = JSON.parse(modelResponse.body.transformToString()).results[0].outputText;
   const response = { content_summary: modelResponseBody.trim() };
 
   return {

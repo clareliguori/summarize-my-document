@@ -49,7 +49,7 @@ class BackendStack(Stack):
                     "bedrock:InvokeModel",
                 ],
                 resources=[
-                    "arn:aws:bedrock:*::foundation-model/anthropic.claude-instant-v1",
+                    "arn:aws:bedrock:*::foundation-model/amazon.titan-text-express-v1",
                 ],
             )
         )
